@@ -19,6 +19,7 @@ import java.util.stream.IntStream;
 public final class BoardAssembler {
 
     private static final int GRID_SIDE = 5;
+
     private static final int CENTER_SLOT = 12;
 
     private BoardAssembler() {
@@ -41,7 +42,8 @@ public final class BoardAssembler {
         for (int slot = 0; slot < GRID_SIDE * GRID_SIDE; slot++) {
             if (slot == CENTER_SLOT) {
                 freshBoard.add(BingoCell.ofFreeCell(slot));
-            } else {
+            }
+            else {
                 freshBoard.add(BingoCell.ofPrompt(slot, chosenPrompts.get(promptCursor)));
                 promptCursor++;
             }
@@ -59,7 +61,8 @@ public final class BoardAssembler {
         for (BingoCell tile : board) {
             if (tile.id() == cellId && !tile.freeCell()) {
                 updatedBoard.add(new BingoCell(tile.id(), tile.prompt(), !tile.selected(), false));
-            } else {
+            }
+            else {
                 updatedBoard.add(tile);
             }
         }
@@ -91,16 +94,18 @@ public final class BoardAssembler {
 
         // Main diagonal  (top-left → bottom-right)
         List<Integer> diagMain = IntStream.range(0, GRID_SIDE)
-                .map(i -> i * GRID_SIDE + i)
-                .boxed().toList();
+            .map(i -> i * GRID_SIDE + i)
+            .boxed()
+            .toList();
         if (allSelected(board, diagMain)) {
             return Optional.of(new WinningStreak("diagonal", 0, diagMain));
         }
 
         // Anti-diagonal (top-right → bottom-left)
         List<Integer> diagAnti = IntStream.range(0, GRID_SIDE)
-                .map(i -> i * GRID_SIDE + (GRID_SIDE - 1 - i))
-                .boxed().toList();
+            .map(i -> i * GRID_SIDE + (GRID_SIDE - 1 - i))
+            .boxed()
+            .toList();
         if (allSelected(board, diagAnti)) {
             return Optional.of(new WinningStreak("diagonal", 1, diagAnti));
         }
@@ -120,13 +125,15 @@ public final class BoardAssembler {
     private static List<Integer> positionsForRow(int row) {
         return IntStream.range(0, GRID_SIDE)
                 .map(col -> row * GRID_SIDE + col)
-                .boxed().toList();
+                .boxed()
+                .toList();
     }
 
     private static List<Integer> positionsForColumn(int col) {
         return IntStream.range(0, GRID_SIDE)
                 .map(row -> row * GRID_SIDE + col)
-                .boxed().toList();
+                .boxed()
+                .toList();
     }
 
     private static boolean allSelected(List<BingoCell> board, List<Integer> positions) {
